@@ -1,36 +1,36 @@
 package deplog
 
 const (
-	flagDebug uint64 = 1 << iota
-	flagDebuga
-	flagDebugf
-	flagInfo
-	flagInfoa
-	flagInfof
-	flagWarning
-	flagWarninga
-	flagWarningf
-	flagWarn
-	flagWarna
-	flagWarnf
-	flagError
-	flagErrora
-	flagErrorf
-	flagCritical
-	flagCriticala
-	flagCriticalf
-	flagCritic
-	flagCritica
-	flagCriticf
-	flagCrit
-	flagCrita
-	flagCritf
-	flagPrint
-	flagPrinta
-	flagPrintf
-	flagNotice
-	flagNoticea
-	flagNoticef
+	FlagDebug uint64 = 1 << iota
+	FlagDebuga
+	FlagDebugf
+	FlagInfo
+	FlagInfoa
+	FlagInfof
+	FlagWarning
+	FlagWarninga
+	FlagWarningf
+	FlagWarn
+	FlagWarna
+	FlagWarnf
+	FlagError
+	FlagErrora
+	FlagErrorf
+	FlagCritical
+	FlagCriticala
+	FlagCriticalf
+	FlagCritic
+	FlagCritica
+	FlagCriticf
+	FlagCrit
+	FlagCrita
+	FlagCritf
+	FlagPrint
+	FlagPrinta
+	FlagPrintf
+	FlagNotice
+	FlagNoticea
+	FlagNoticef
 )
 
 const (
@@ -40,111 +40,111 @@ const (
 func createProfile(logger interface{}) (profile uint64) {
 	var k bool
 	if _, k = logger.(Debugger); k {
-		profile |= flagDebug
+		profile |= FlagDebug
 	}
 	k = false
 	if _, k = logger.(ArgsDebugger); k {
-		profile |= flagDebuga
+		profile |= FlagDebuga
 	}
 	k = false
 	if _, k = logger.(FormatDebugger); k {
-		profile |= flagDebugf
+		profile |= FlagDebugf
 	}
 	k = false
 	if _, k = logger.(Infoer); k {
-		profile |= flagInfo
+		profile |= FlagInfo
 	}
 	k = false
 	if _, k = logger.(ArgsInfoer); k {
-		profile |= flagInfoa
+		profile |= FlagInfoa
 	}
 	k = false
 	if _, k = logger.(FormatInfoer); k {
-		profile |= flagInfof
+		profile |= FlagInfof
 	}
 	k = false
 	if _, k = logger.(Warninger); k {
-		profile |= flagWarning
+		profile |= FlagWarning
 	}
 	k = false
 	if _, k = logger.(ArgsWarninger); k {
-		profile |= flagWarninga
+		profile |= FlagWarninga
 	}
 	k = false
 	if _, k = logger.(FormatWarninger); k {
-		profile |= flagWarningf
+		profile |= FlagWarningf
 	}
 	k = false
 	if _, k = logger.(Warner); k {
-		profile |= flagWarn
+		profile |= FlagWarn
 	}
 	k = false
 	if _, k = logger.(ArgsWarner); k {
-		profile |= flagWarna
+		profile |= FlagWarna
 	}
 	k = false
 	if _, k = logger.(FormatWarner); k {
-		profile |= flagWarnf
+		profile |= FlagWarnf
 	}
 	k = false
 	if _, k = logger.(Errorer); k {
-		profile |= flagError
+		profile |= FlagError
 	}
 	k = false
 	if _, k = logger.(ArgsErrorer); k {
-		profile |= flagErrora
+		profile |= FlagErrora
 	}
 	k = false
 	if _, k = logger.(FormatErrorer); k {
-		profile |= flagErrorf
+		profile |= FlagErrorf
 	}
 	k = false
 	if _, k = logger.(Criticaler); k {
-		profile |= flagCritical
+		profile |= FlagCritical
 	}
 	k = false
 	if _, k = logger.(ArgsCriticaler); k {
-		profile |= flagCriticala
+		profile |= FlagCriticala
 	}
 	k = false
 	if _, k = logger.(FormatCriticaler); k {
-		profile |= flagCriticalf
+		profile |= FlagCriticalf
 	}
 	k = false
 	if _, k = logger.(Criticer); k {
-		profile |= flagCritical
+		profile |= FlagCritical
 	}
 	k = false
 	if _, k = logger.(ArgsCriticer); k {
-		profile |= flagCriticala
+		profile |= FlagCriticala
 	}
 	k = false
 	if _, k = logger.(FormatCriticer); k {
-		profile |= flagCriticalf
+		profile |= FlagCriticalf
 	}
 	k = false
 	if _, k = logger.(Criter); k {
-		profile |= flagCritical
+		profile |= FlagCritical
 	}
 	k = false
 	if _, k = logger.(ArgsCriter); k {
-		profile |= flagCriticala
+		profile |= FlagCriticala
 	}
 	k = false
 	if _, k = logger.(FormatCriter); k {
-		profile |= flagCriticalf
+		profile |= FlagCriticalf
 	}
 	k = false
 	if _, k = logger.(Noticer); k {
-		profile |= flagNotice
+		profile |= FlagNotice
 	}
 	k = false
 	if _, k = logger.(ArgsNoticer); k {
-		profile |= flagNoticea
+		profile |= FlagNoticea
 	}
 	k = false
 	if _, k = logger.(FormatNoticer); k {
-		profile |= flagNoticef
+		profile |= FlagNoticef
 	}
 
 	return
@@ -152,59 +152,59 @@ func createProfile(logger interface{}) (profile uint64) {
 
 func getFuncPointerFromFlag(flag uint64, logger interface{}) (fp interface{}) {
 	switch flag {
-	case flagDebug:
+	case FlagDebug:
 		fp = (logger.(Debugger)).Debug
-	case flagDebuga:
+	case FlagDebuga:
 		fp = (logger.(ArgsDebugger)).Debug
-	case flagDebugf:
+	case FlagDebugf:
 		fp = (logger.(FormatDebugger)).Debugf
-	case flagInfo:
+	case FlagInfo:
 		fp = (logger.(Infoer)).Info
-	case flagInfoa:
+	case FlagInfoa:
 		fp = (logger.(ArgsInfoer)).Info
-	case flagInfof:
+	case FlagInfof:
 		fp = (logger.(FormatInfoer)).Infof
-	case flagWarning:
+	case FlagWarning:
 		fp = (logger.(Warninger)).Warning
-	case flagWarninga:
+	case FlagWarninga:
 		fp = (logger.(ArgsWarninger)).Warning
-	case flagWarningf:
+	case FlagWarningf:
 		fp = (logger.(FormatWarninger)).Warningf
-	case flagWarn:
+	case FlagWarn:
 		fp = (logger.(Warner)).Warn
-	case flagWarna:
+	case FlagWarna:
 		fp = (logger.(ArgsWarner)).Warn
-	case flagWarnf:
+	case FlagWarnf:
 		fp = (logger.(FormatWarner)).Warnf
-	case flagError:
+	case FlagError:
 		fp = (logger.(Errorer)).Error
-	case flagErrora:
+	case FlagErrora:
 		fp = (logger.(ArgsErrorer)).Error
-	case flagErrorf:
+	case FlagErrorf:
 		fp = (logger.(FormatErrorer)).Errorf
-	case flagCritical:
+	case FlagCritical:
 		fp = (logger.(Criticaler)).Critical
-	case flagCriticala:
+	case FlagCriticala:
 		fp = (logger.(ArgsCriticaler)).Critical
-	case flagCriticalf:
+	case FlagCriticalf:
 		fp = (logger.(FormatCriticaler)).Criticalf
-	case flagCritic:
+	case FlagCritic:
 		fp = (logger.(Criticer)).Critic
-	case flagCritica:
+	case FlagCritica:
 		fp = (logger.(ArgsCriticer)).Critic
-	case flagCriticf:
+	case FlagCriticf:
 		fp = (logger.(FormatCriticer)).Criticf
-	case flagCrit:
+	case FlagCrit:
 		fp = (logger.(Criter)).Crit
-	case flagCrita:
+	case FlagCrita:
 		fp = (logger.(ArgsCriter)).Crit
-	case flagCritf:
+	case FlagCritf:
 		fp = (logger.(FormatCriter)).Critf
-	case flagNotice:
+	case FlagNotice:
 		fp = (logger.(Noticer)).Notice
-	case flagNoticea:
+	case FlagNoticea:
 		fp = (logger.(ArgsNoticer)).Notice
-	case flagNoticef:
+	case FlagNoticef:
 		fp = (logger.(FormatNoticer)).Noticef
 	}
 
@@ -215,21 +215,27 @@ func getFuncPointerFromFlag(flag uint64, logger interface{}) (fp interface{}) {
 // the given map. This map tells which of the DepLog methods should be routed
 // to which injected logger methods, or ignore if they don't exist.
 // see SetupDefaultRoutes(...) as an example
-func BindRoutes(l *DepLog, levels []uint64) {
+func BindRoutes(l *DepLog, profile uint64, levels map[uint64]uint64) {
+	if l.profile != profile {
+		return
+	}
+
+	l.routes = map[uint64](interface{}){} // clear routes
+
 	// link the diff log methods if they exist
 	links := map[uint64]uint64{}
-	for _, lvl := range levels {
-		link := lvl & l.profile
+	for lvl, methods := range levels {
+		link := methods & l.profile
 		if link > 0 {
 			links[lvl] = link
 		}
 	}
 
 	// binds the function pointer target to the desired level
-	// if there exists more than one flag in the link, choose the first one
+	// if there exists more than one Flag in the link, choose the first one
 	for lvl, fpt := range links {
-		flag := nextMethodProfile(fpt, 0)
-		fp := getFuncPointerFromFlag(flag, l.injectedLogger)
+		Flag := nextMethodProfile(fpt, 0)
+		fp := getFuncPointerFromFlag(Flag, l.injectedLogger)
 		l.routes[lvl] = fp
 	}
 }
@@ -238,20 +244,20 @@ func BindRoutes(l *DepLog, levels []uint64) {
 // exists in the injected logger. If they do not exist, logging is ignored.
 func SetupDefaultRoutes(l *DepLog) {
 	// each key or index, represents an method in DepLog
-	// order does not matter, as each method uses their own flag to find
+	// order does not matter, as each method uses their own Flag to find
 	// which function pointer they can call in the routes map
-	levels := []uint64{
-		/*info*/ flagInfo | flagInfoa | flagPrint | flagPrinta,
-		/*infof*/ flagInfof | flagPrintf,
-		/*warn*/ flagWarn | flagWarning | flagWarna | flagWarninga,
-		/*warnf*/ flagWarnf | flagWarningf,
-		/*debug*/ flagDebug | flagDebuga,
-		/*debugf*/ flagDebugf,
-		/*err*/ flagError | flagErrora,
-		/*errf*/ flagErrorf,
-		/*crit*/ flagCrit | flagCritic | flagCritical | flagCrita | flagCritica | flagCriticala,
-		/*critf*/ flagCritf | flagCriticf | flagCriticalf,
+	levels := map[uint64]uint64{
+		FlagInfo:   FlagInfo | FlagInfoa | FlagPrint | FlagPrinta,
+		FlagInfof:  FlagInfof | FlagPrintf,
+		FlagWarn:   FlagWarn | FlagWarning | FlagWarna | FlagWarninga,
+		FlagWarnf:  FlagWarnf | FlagWarningf,
+		FlagDebug:  FlagDebug | FlagDebuga,
+		FlagDebugf: FlagDebugf,
+		FlagError:  FlagError | FlagErrora,
+		FlagErrorf: FlagErrorf,
+		FlagCrit:   FlagCrit | FlagCritic | FlagCritical | FlagCrita | FlagCritica | FlagCriticala,
+		FlagCritf:  FlagCritf | FlagCriticf | FlagCriticalf,
 	}
 
-	BindRoutes(l, levels)
+	BindRoutes(l, l.profile, levels)
 }

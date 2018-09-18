@@ -30,8 +30,8 @@ func TestBinding(t *testing.T) {
 	}
 	SetupDefaultRoutes(deplog)
 
-	if deplog.profile != flagInfo {
-		t.Errorf("profile was incorrect. Got %d, wants %d", deplog.profile, flagInfo)
+	if deplog.profile != FlagInfo {
+		t.Errorf("profile was incorrect. Got %d, wants %d", deplog.profile, FlagInfo)
 	}
 
 	deplog.Info("")
@@ -71,8 +71,8 @@ func TestRerouting(t *testing.T) {
 	}
 	SetupDefaultRoutes(deplog)
 
-	if deplog.profile != (flagInfo | flagDebug) {
-		t.Errorf("profile was incorrect. Got %d, wants %d", deplog.profile, (flagInfo | flagDebug))
+	if deplog.profile != (FlagInfo | FlagDebug) {
+		t.Errorf("profile was incorrect. Got %d, wants %d", deplog.profile, (FlagInfo | FlagDebug))
 	}
 
 	deplog.Info("")
@@ -86,7 +86,7 @@ func TestRerouting(t *testing.T) {
 	}
 
 	// route debug to info
-	deplog.Route(deplog.profile, flagDebug, flagInfo)
+	deplog.Route(deplog.profile, FlagDebug, FlagInfo)
 
 	deplog.Debug("")
 	deplog.Debug("")

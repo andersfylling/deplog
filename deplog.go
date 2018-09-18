@@ -2,7 +2,6 @@ package deplog
 
 import (
 	"errors"
-	"fmt"
 	"math/bits"
 	"sync"
 )
@@ -37,10 +36,10 @@ func nextMethodProfile(x, ignore uint64) uint64 {
 	return uint64(1) << uint64(lsb(x))
 }
 
-func getLoggerFunc(routes map[uint64](interface{}), flag uint64) (f interface{}) {
+func getLoggerFunc(routes map[uint64](interface{}), Flag uint64) (f interface{}) {
 	var methods uint64
 	for methods, f = range routes {
-		if (methods & flag) > 0 {
+		if (methods & Flag) > 0 {
 			break
 		}
 	}
@@ -73,7 +72,6 @@ func NewDepLogger(injected interface{}) (logger Logger, err error) {
 		profile:        profile,
 		routes:         map[uint64](interface{}){},
 	}
-	SetupDefaultRoutes(deplog)
 
 	logger = deplog
 	return
@@ -96,7 +94,7 @@ type DepLog struct {
 }
 
 // Route overwrites existing default routes for s specific logger type such as logrus
-// eg. DepLog.Route(profileLogrus, flagDebugf, flagFatalf)
+// eg. DepLog.Route(profileLogrus, FlagDebugf, FlagFatalf)
 // will bind the DepLog.Debugf to injected.Fatalf, if the injected logger has the matching profile
 //
 // Yes, another injected logger migth have the same profile as logrus, in that case
@@ -121,22 +119,20 @@ func (l *DepLog) Route(loggerProfile uint64, depLogMethods uint64, injectedMetho
 	//    current keys or routes (after: if key == 0 then delete)
 	// 3. add the depLogMethods to the route found in step.1
 
-	// 1. check that the flag actually has a method pointer
+	// 1. check that the Flag actually has a method pointer
 	solutionfp := getLoggerFunc(l.routes, injectedMethod)
 	if solutionfp == nil {
 		return l
 	}
-	fmt.Printf("\n::::%+v\n", l.routes)
 
 	// 2.remove the old methods
 	methods := map[uint64]uint64{}
 	for route := range l.routes {
-		flags := route & (depLogMethods | injectedMethod)
-		if flags > 0 {
-			methods[route] = flags ^ route
+		Flags := route & (depLogMethods | injectedMethod)
+		if Flags > 0 {
+			methods[route] = Flags ^ route
 		}
 	}
-	fmt.Printf("\n::::%+v\n", l.routes)
 
 	// 2. overwrite
 	for old, new := range methods {
@@ -144,16 +140,14 @@ func (l *DepLog) Route(loggerProfile uint64, depLogMethods uint64, injectedMetho
 		delete(l.routes, old)
 		l.routes[new] = fp
 	}
-	fmt.Printf("\n::::%+v\n", l.routes)
 
 	// remove dead key
 	if _, exists := l.routes[0]; exists {
 		delete(l.routes, 0)
 	}
 
-	// 3. add the new flags to the desired route
+	// 3. add the new Flags to the desired route
 	l.routes[solution] = solutionfp
-	fmt.Printf("\n::::%+v\n", l.routes)
 
 	return l
 }
@@ -162,7 +156,7 @@ func (l *DepLog) Info(message string) {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
-	f := getLoggerFunc(l.routes, flagInfo)
+	f := getLoggerFunc(l.routes, FlagInfo)
 	log(f, message)
 }
 
@@ -170,7 +164,7 @@ func (l *DepLog) Infof(format string, args ...interface{}) {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
-	f := getLoggerFunc(l.routes, flagInfof)
+	f := getLoggerFunc(l.routes, FlagInfof)
 	log(f, format, args...)
 }
 
@@ -178,7 +172,7 @@ func (l *DepLog) Warn(message string) {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
-	f := getLoggerFunc(l.routes, flagWarn|flagWarning)
+	f := getLoggerFunc(l.routes, FlagWarn|FlagWarning)
 	log(f, message)
 }
 
@@ -186,7 +180,7 @@ func (l *DepLog) Warnf(format string, args ...interface{}) {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
-	f := getLoggerFunc(l.routes, flagWarnf|flagWarningf)
+	f := getLoggerFunc(l.routes, FlagWarnf|FlagWarningf)
 	log(f, format, args...)
 }
 
@@ -194,7 +188,7 @@ func (l *DepLog) Debug(message string) {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
-	f := getLoggerFunc(l.routes, flagDebug)
+	f := getLoggerFunc(l.routes, FlagDebug)
 	log(f, message)
 }
 
@@ -202,34 +196,34 @@ func (l *DepLog) Debugf(format string, args ...interface{}) {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
-	f := getLoggerFunc(l.routes, flagDebugf)
+	f := getLoggerFunc(l.routes, FlagDebugf)
 	log(f, format, args...)
 }
 func (l *DepLog) Error(message string) {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
-	f := getLoggerFunc(l.routes, flagError)
+	f := getLoggerFunc(l.routes, FlagError)
 	log(f, message)
 }
 func (l *DepLog) Errorf(format string, args ...interface{}) {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
-	f := getLoggerFunc(l.routes, flagErrorf)
+	f := getLoggerFunc(l.routes, FlagErrorf)
 	log(f, format, args...)
 }
 func (l *DepLog) Crit(message string) {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
-	f := getLoggerFunc(l.routes, flagCrit)
+	f := getLoggerFunc(l.routes, FlagCrit)
 	log(f, message)
 }
 func (l *DepLog) Critf(format string, args ...interface{}) {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
-	f := getLoggerFunc(l.routes, flagCritf)
+	f := getLoggerFunc(l.routes, FlagCritf)
 	log(f, format, args...)
 }
