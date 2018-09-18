@@ -1,1 +1,1 @@
-module deplog
+module github.com/andersfylling/deplog
