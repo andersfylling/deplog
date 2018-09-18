@@ -35,7 +35,7 @@ logger.Info("yep") // not called, as the injected logger is missing Info method
 
 // let's route the Info method to the .Debug method
 logger.Route(deplog.FlagDebug, FlagInfo, FlagDebug)
-logger.Debug("this prints!") // triggers someRandomLoggerInstance.Debug(...)
+logger.Info("this prints!") // triggers someRandomLoggerInstance.Debug(...)
 ```
 This might be a little confusing. It's important to know that calling NewDepLogger will initialize a default relationship, where methods missing in the injected logger, are simply ignored. However, as we saw, we can route deplog methods to another logger method as desired per profile using the DepLog.Route option.
 
@@ -46,7 +46,7 @@ DepLog.Route takes tree parameters:
 
 The reason I used deplog.FlagDebug, is because it is the specific profile for any logger that only has a .Debug method.
 
-You can also create more advanced behaviour using the deplog.BindRoutes(...) which takes the DepLog instance with an array of logger levels (info, debug, etc.). It is here you decided which logger level should be vound to which logger method. Here I show the default network. The first line of the map tells us that when we run a DepLog.Info method, it should be routed to first found logger method that is either: .Info(string), .Info(...interface{}), .Print(string), .Print(...interface{}).
+You can also create more advanced behaviour using the deplog.BindRoutes(...) which takes the DepLog instance with an array of logger levels (info, debug, etc.). It is here you decided which logger level should be bound to which logger method. Here I show the default network. The first line of the map tells us that when we run a DepLog.Info method, it should be routed to first found logger method that is either: .Info(string), .Info(...interface{}), .Print(string), .Print(...interface{}).
 While DepLog.Debugf is only routed to .Debugf(string, ...interface{})
 ```GoLang
 levels := map[uint64]uint64{
